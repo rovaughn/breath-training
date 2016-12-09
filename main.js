@@ -1,5 +1,6 @@
 
 function print_remaining(s) {
+    s = Math.round(s);
     var min = (s/60)|0;
     var sec = s % 60;
 
@@ -10,7 +11,7 @@ function print_remaining(s) {
     return min + ':' + sec;
 }
 
-function start(n_rounds, points) {
+function start(total_time, bpm, points) {
     var start_elem = document.getElementById('start');
     var timer_elem = document.getElementById('timer');
     start_elem.style.display = 'none';
@@ -25,19 +26,26 @@ function start(n_rounds, points) {
     }
 
     var timer_elem = document.getElementById('timer');
-    var round_length = 0;
     var need_refresh = true;
     var commandElem = document.getElementById('command');
     var remaining_elem = document.getElementById('remaining');
     var commandText = commandElem.innerText;
 
+    var original_round_length = 0;
     for (var i = 0; i < points.length; i++) {
-        round_length += points[i].length;
+        original_round_length += points[i].length;
     }
 
-    var total_time = round_length * n_rounds;
-    var last_remaining = total_time;
+    var round_length = 60 / bpm;
+    
+    for (var i = 0; i < points.length; i++) {
+        points[i].length *= round_length / original_round_length;
+    }
 
+    var n_rounds = Math.ceil(total_time / round_length);
+    total_time = n_rounds * round_length;
+
+    var last_remaining = total_time;
     remaining_elem.innerText = print_remaining(last_remaining);
 
     ctx.strokeStyle = 'white';
@@ -91,7 +99,12 @@ function start(n_rounds, points) {
 }
 
 document.getElementById('start-btn').onclick = function() {
-    start(32, [
+    var total_time = +document.getElementById('min').value;
+    var bpm = +document.getElementById('bpm').value;
+
+    console.log(total_time, bpm);
+
+    start(total_time*60, bpm, [
         {name: 'Inhale', length: 3, breath: 0, color: 'white'},
         {name: 'Exhale', length: 9, breath: 1, color: 'white'},
     ]);
