@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Prana breath training</title>
+        <style>
+            #container {
+                margin: auto;
+                width: 300px;
+                font-size: 20pt;
+                text-align: center;
+                padding-top: 100px;
+            }
+
+            #start-btn {
+                font-size: 20pt;
+            }
+
+            #timer {
+                text-align: center;
+                font-size: 20pt;
+                display: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <div id="start">
+                <button id="start-btn">Start</div>
+            </div>
+            <div id="timer">
+                <canvas width="200" height="200" id="canvas">Sorry, your browser doesn't support canvas</canvas>
+                <p id="command"></p>
+                <p id="remaining"></p>
+            </div>
+        </div>
+        <script src="main.js"></script>
+    </body>
+</html>
