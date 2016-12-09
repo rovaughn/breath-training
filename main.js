@@ -40,6 +40,8 @@ function start(n_rounds, points) {
 
     remaining_elem.innerText = print_remaining(last_remaining);
 
+    ctx.strokeStyle = 'white';
+    ctx.fillStyle = 'white';
     function paint() {
         var elapsed = (+new Date() - beginTime)/1000;
         var position = elapsed % round_length;
@@ -69,24 +71,29 @@ function start(n_rounds, points) {
 
                 var breath = point.breath + (next_point.breath - point.breath) * (position - start) / (end - start);
 
-                ctx.fillStyle = point.color;
-                ctx.beginPath();
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.arc(100, 100, 100*breath, 0, 2*Math.PI);
+                ctx.beginPath();
+                ctx.arc(101, 101, 100, 0, 2*Math.PI);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(101, 101, 100*breath, 0, 2*Math.PI);
                 ctx.fill();
             }
 
             start = end;
         }
+
+        requestAnimationFrame(paint);
     }
 
-    var timer = setInterval(requestAnimationFrame.bind(null, paint), 1000/47);
+    //var timer = setInterval(requestAnimationFrame.bind(null, paint), 1000/35);
+    requestAnimationFrame(paint);
 }
 
 document.getElementById('start-btn').onclick = function() {
     start(32, [
-        {name: 'Inhale', length: 3, breath: 0, color: 'black'},
-        {name: 'Exhale', length: 9, breath: 1, color: 'black'},
+        {name: 'Inhale', length: 3, breath: 0, color: 'white'},
+        {name: 'Exhale', length: 9, breath: 1, color: 'white'},
     ]);
 }
 
